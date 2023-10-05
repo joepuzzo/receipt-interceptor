@@ -75,7 +75,15 @@ printer_ip = "192.168.0.101"
 pos_ip = "192.168.0.106"
 ```
 
-Now that we have the ips set its time to run the progarm
+**Note** by default this will only look for receipts that have specific keywords in them.
+
+Update the following line of code in the logger to look for your keywords
+
+```python
+look_for = ["ROBOT", "FOR HERE", "YOUR KEYWORD HERE", "ANOTHER KEYWORD"]
+```
+
+Now that we have the ips and keywords are set, its time to run the progarm
 
 
 ```bash

@@ -4,6 +4,9 @@ from scapy.all import sniff, IP, TCP
 printer_ip = "192.168.0.101"
 pos_ip = "192.168.0.106"
 
+# Keywords to look for
+look_for = ["ROBOT", "FOR HERE"]
+
 def packet_callback(pkt):
     if pkt.haslayer(IP) and pkt.haslayer(TCP):
         src_ip = pkt[IP].src
@@ -22,10 +25,17 @@ def log_packet(prefix, pkt):
         try:
             # Check if the payload starts with 0x1b
             if payload_data.load.startswith(b'\x1b'):
-                print("---------- ORDER UP ----------")
-                payload_str = payload_data.load.decode('utf-8')
-                print(f"\n{payload_str}")
-                print("------------ END ------------")
+                payload_str = payload_data.load.decode('utf-8').strip()
+
+                # Debug: print ASCII values of characters
+                # print(f"{prefix}: ASCII values: {[ord(char) for char in payload_str]}")
+
+                # Check if payload_str contains any of the keywords
+                if any(keyword in payload_str for keyword in look_for):
+                    print("---------- ORDER UP ----------")
+                    print(f"\n{payload_str}")
+                    print("------------ END ------------")
+
         except UnicodeDecodeError:
             pass
             # Not UTF-8 encoded data, logging as hex and ASCII where possible
