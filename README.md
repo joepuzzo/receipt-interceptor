@@ -80,6 +80,6 @@ Now that we have the ips set its time to run the progarm
 
 ```bash
 sudo venv/bin/python logger.py 
-``
+```
 
 **Note** Its important to use sudo so it can access the interfaces
