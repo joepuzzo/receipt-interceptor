@@ -2,6 +2,20 @@
 
 This is a python program that will intercept requests from a Receipt Printer. You can use this to perform actions in addition to printing
 
+### Hardware Layout
+
+```
+
+   [Router] ------ eth1 --- [Raspberry Pi] --- eth0 ------ [Receipt Printer]
+      |              |                          |
+      |               ---------- br0 -----------
+      |
+ [Square POS]
+
+```
+
+**Note** how eth1 and eth0 are bridged therefore its as if the router is directly connected to the printer but we are able to sniff on the raspberry pi.
+
 ## Setup
 
 ### Interfaces
@@ -19,15 +33,14 @@ For eas of setup we have included a `create-bridge.sh` bash script that will cre
 Assuming "eth1" is plugged into your router, open up the following file on your raspberry pi `sudo vim /etc/dhcpcd.conf` and add the following line to the bottom
 
 ```
-denyinterfaces eth1 
+denyinterfaces eth1
 ```
 
 Now reboot the raspberry pi for the changes to take effect.
 
-#### Step2: 
+#### Step2:
 
 Ok now that we have made sure the interface plugged into the router does not try to use DHCP we can run our script to create the bridge :)
-
 
 ```bash
 sudo ./create-bridge.sh
@@ -38,7 +51,6 @@ This will create the bridge interface and bring it up!
 #### Step3
 
 Now plug your printer into one interface and the router into another
-
 
 ### Python Installation
 
@@ -62,7 +74,6 @@ This will activate the virtual envirnment. Now all thats left is to install the 
 python -m pip install -r requirements.txt
 ```
 
-
 ## Running
 
 The `logger.py` script will log any reciepts sent to the printer. In order to run you must first figure out the IP address of the POS ( Purchase Of Sale ) device and the Printer.
@@ -85,9 +96,8 @@ look_for = ["ROBOT", "FOR HERE", "YOUR KEYWORD HERE", "ANOTHER KEYWORD"]
 
 Now that we have the ips and keywords are set, its time to run the progarm
 
-
 ```bash
-sudo venv/bin/python logger.py 
+sudo venv/bin/python logger.py
 ```
 
 **Note** Its important to use sudo so it can access the interfaces
